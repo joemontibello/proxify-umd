@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<!-- This one uses JQuery and Javascript to process the form, but sends a Get request to proxify.php to get the bitly response -->
+   <head>
+        <title>Proxy Link Generator</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type ="text/javascript"
+            src ="http://www.google.com/jsapi"></script> <!-- You can also use "jquery-1.7.js" as your src-->
+                    
+        <script type ="text/javascript">
+
+            //<![CDATA[
+            google.load("jquery", "1");          
+            
+            $(document).ready(init);     
+                        
+            function init() { // clears the form                                
+                $("#txtInput").val("");
+                $("#txtOutput").val("");
+            } // end init           
+                      
+            function bitly() {
+            	var permalink = $("#txtInput").val();
+            	$.get ("proxify.php", { "permalink" : permalink }, processResult);
+            }	
+            // end bitly
+            
+            function processResult(data, textStatus) {
+            	$("#txtOutput").val(data);            	            	
+            }                            
+            // end processResult
+             
+            //]]>
+        </script>
+    </head>
+    <body>        
+        <p>Insert a permalink from a library database into the form below and click the submit button. A new URL will be generated that includes a prefix that routes the link through the university's proxy server. The whole link is then shortened using the <a href="http://bitly.com/">bitly.com</a> service. You can use the generated link to share links into databases with people off campus, and you can also use the link as a bookmark for your own future use. To do this the manual way, see the <a href="http://lib.guides.umd.edu/aecontent.php?pid=233784&sid=1934195">Link to a Journal</a>  tab</p>
+         <form>
+            <fieldset>
+                <label>Insert permalink: </label>
+                <input type = "text"
+                       id ="txtInput" 
+                       onclick = "select()"/>                      
+                <input type = "button" 
+                       value = "submit"
+                       onclick = "bitly()" /> 
+                <input type = "button"
+                       value = "clear"
+                       onclick = "init()" /> <br> 
+                <label>Permalink with proxy prefix: </label>
+                 <input type = "text"
+                          id ="txtOutput"
+                          onclick ="select()" 
+                          readonly = "readonly">
+            </fieldset>
+        </form>        
+    </body>
+</html>
